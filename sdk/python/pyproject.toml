@@ -1,0 +1,17 @@
+[project]
+name = "siput-sdk-python"
+version = "0.1.0"
+description = "Siput Python SDK"
+authors = [ { name = "Siput Team" } ]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+
+dependencies = [
+    "requests>=2.31",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]

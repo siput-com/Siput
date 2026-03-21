@@ -1,0 +1,45 @@
+{
+  "name": "siput-sdk",
+  "version": "0.1.0",
+  "description": "High-level SDK for the Siput blockchain - easy wallet connect, transaction building, and event listening",
+  "main": "siput-sdk.js",
+  "browser": "siput-sdk.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "build": "echo 'No build step required for vanilla JS'",
+    "lint": "eslint siput-sdk.js",
+    "examples": "node examples/javascript/wallet-connect/index.js"
+  },
+  "keywords": [
+    "blockchain",
+    "sdk",
+    "wallet",
+    "cryptocurrency",
+    "siput",
+    "web3",
+    "dapp"
+  ],
+  "author": "Siput Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/siput-com/Siput.git",
+    "directory": "sdk/javascript"
+  },
+  "bugs": {
+    "url": "https://github.com/siput-com/Siput/issues"
+  },
+  "homepage": "https://github.com/siput-com/Siput#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "siput-sdk.js",
+    "README.md",
+    "examples/"
+  ],
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  }
+}

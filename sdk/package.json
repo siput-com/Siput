@@ -1,0 +1,37 @@
+{
+  "name": "siput-sdk-monorepo",
+  "version": "0.1.0",
+  "description": "Siput SDK Monorepo - High-level SDKs for the Siput blockchain",
+  "private": true,
+  "workspaces": [
+    "javascript",
+    "rust"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=javascript",
+    "test": "npm run test --workspace=javascript",
+    "lint": "npm run lint --workspace=javascript",
+    "examples": "npm run examples --workspace=javascript"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/siput-com/Siput.git",
+    "directory": "sdk"
+  },
+  "keywords": [
+    "blockchain",
+    "sdk",
+    "wallet",
+    "cryptocurrency",
+    "siput",
+    "web3",
+    "dapp",
+    "monorepo"
+  ],
+  "author": "Siput Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/siput-com/Siput/issues"
+  },
+  "homepage": "https://github.com/siput-com/Siput#readme"
+}

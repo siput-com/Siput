@@ -4,7 +4,10 @@ A high-performance, DAG-based blockchain implementation written in Rust, featuri
 
 ## Features
 
-- **DAG-based Consensus**: Advanced blockDAG architecture for high throughput
+- **DAG-based Consensus**: Advanced blockDAG architecture for high throughputRefactor storage dan indexer:
+
+- Buat Storage trait/interface
+- Pis
 - **WebAssembly Smart Contracts**: Secure, sandboxed contract execution
 - **P2P Networking**: Robust peer-to-peer communication with libp2p
 - **RocksDB Storage**: Persistent storage for blockchain state and contracts
@@ -12,7 +15,7 @@ A high-performance, DAG-based blockchain implementation written in Rust, featuri
   - Rust SDK with full node capabilities
   - JavaScript SDK for browser dApps
   - Mobile SDK for iOS/Android
-  - **Global Event System** for real-time updates
+  - Real-time event system
   - WebSocket streaming API
   - High-performance blockchain indexer
   - Local devnet tools
@@ -27,25 +30,10 @@ src/
 ├── network/       # P2P networking and RPC
 ├── storage/       # Database interfaces
 ├── execution/     # Transaction and contract execution
-├── pipeline/      # Modular transaction processing pipeline
-│   ├── validation_stage.rs   # Transaction validation
-│   ├── mempool_stage.rs      # Mempool management
-│   ├── execution_stage.rs    # Transaction execution
-│   ├── state_update_stage.rs # State updates
-│   └── finality_stage.rs     # Finality handling
 ├── vm/           # WebAssembly runtime
 ├── wallet/       # Wallet functionality
-├── rpc/          # Modular RPC server with domain separation
-│   ├── handlers/         # Domain-separated handlers
-│   ├── interfaces.rs     # Stable RPC service interfaces
-│   ├── services.rs       # Service implementations
-│   ├── versioning.rs     # API versioning utilities
-│   └── README.md         # RPC layer documentation
+├── rpc/          # RPC server with WebSocket support
 ├── events/       # Real-time event system
-│   ├── global_emitter.rs     # Global event emitter
-│   ├── global_listener.rs    # Global event listener
-│   ├── event_types.rs        # Event type definitions
-│   └── README.md            # Event system documentation
 ├── indexer/      # High-performance blockchain indexer
 │   ├── block_indexer.rs
 │   ├── tx_indexer.rs
@@ -53,98 +41,48 @@ src/
 └── node/         # Node runtime
 
 sdk/
-├── rust/         # High-level Rust SDK (siput-sdk)
+├── rust/         # Rust SDK crate (siput-sdk)
 │   ├── src/
-│   │   ├── sdk.rs            # High-level SDK interface
 │   │   ├── client.rs         # RPC client
 │   │   ├── wallet.rs         # Wallet management
 │   │   ├── transaction.rs    # Transaction builder
 │   │   ├── contract.rs       # Smart contract interface
-│   │   ├── events.rs         # Event system integration
+│   │   ├── network.rs        # Network utilities
+│   │   ├── crypto.rs         # Cryptographic utilities
+│   │   ├── mobile/           # Mobile-optimized SDK
+│   │   │   ├── mobile_client.rs
+│   │   │   └── mobile_wallet.rs
 │   │   ├── errors.rs         # Unified error handling
 │   │   └── lib.rs
-│   ├── Cargo.toml
-│   └── README.md
-├── javascript/   # High-level JavaScript SDK
-│   ├── siput-sdk.js          # Main SDK file
-│   ├── package.json
-│   ├── README.md
-│   └── examples/
-├── examples/     # Cross-language examples
-│   ├── javascript/
-│   │   ├── wallet-connect/
-│   │   ├── transaction-builder/
-│   │   └── event-listening/
-│   └── rust/
-│       ├── simple-wallet/
-│       └── contract-interaction/
-├── package.json  # Monorepo configuration
-└── README.md     # SDK overview
+│   └── Cargo.toml
+└── javascript/   # JavaScript SDK
+    ├── provider/
+    │   ├── provider.js
+    │   ├── events.js
+    │   └── wallet_bridge.js
+    └── mobile/
 ```
 
 ## Developer Ecosystem
 
-### High-Level SDKs
-
-#### JavaScript SDK
-Easy-to-use SDK for web dApps and Node.js applications:
-
-```javascript
-import { SiputSDK } from 'siput-sdk';
-
-// Initialize SDK
-const sdk = new SiputSDK('http://localhost:8080');
-
-// Connect wallet
-const walletInfo = await sdk.connectWallet({ create: true });
-console.log('Wallet:', walletInfo.address);
-
-// Send tokens
-const txHash = await sdk.sendTokens(recipientAddress, 1000);
-
-// Listen for events
-sdk.onBalanceChange((oldBalance, newBalance) => {
-    console.log(`Balance: ${oldBalance} -> ${newBalance}`);
-});
-```
+### SDK Components
 
 #### Rust SDK
-Type-safe SDK for desktop and server applications:
+Full-featured SDK for desktop and server applications:
 
 ```rust
-use siput_sdk::{SiputSDK, WalletConnector};
-use std::sync::Arc;
+use siput_sdk::{Client, Wallet, TransactionBuilder, EventBus, EventListener};
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Initialize SDK
-    let sdk = Arc::new(SiputSDK::new("http://localhost:8080"));
+// Connect and interact with the blockchain
+let client = Client::new("http://localhost:8080");
+let wallet = Wallet::create_wallet()?;
 
-    // Connect wallet
-    let connector = WalletConnector::new(Arc::clone(&sdk));
-    let wallet = connector.create_wallet().await?;
-    sdk.connect_wallet(wallet).await?;
-
-    // Send tokens
-    let tx_hash = sdk.send_tokens(recipient_address, 1000).await?;
-
-    // Listen for events
-    sdk.on_new_blocks(|block, height| async move {
-        println!("New block: {}", height);
-    }).await?;
-
-    Ok(())
-}
-```
-
-### SDK Features
-
-- **🔐 Wallet Connect**: Create, import, and manage wallets
-- **⚡ Transaction Builder**: Fluent API for building transactions
-- **📡 Event Listening**: Real-time blockchain event subscriptions
-- **🏗️ Contract Interaction**: Deploy and call smart contracts
-- **🌐 Multi-Language**: JavaScript and Rust implementations
-- **📚 Rich Examples**: Comprehensive usage examples
+// Real-time event subscriptions
+let event_bus = EventBus::new();
+let listener = EventListener::new(event_bus, "my_app".to_string());
+listener.subscribe_new_blocks(|event| async move {
+    println!("New block: {:?}", event);
+}).await;
 ```
 
 #### JavaScript SDK

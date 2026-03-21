@@ -1,0 +1,3 @@
+[target.aarch64-linux-android]
+ar = "/home/codespace/android-ndk-r25c/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar"
+linker = "/home/codespace/android-ndk-r25c/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang"

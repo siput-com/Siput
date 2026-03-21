@@ -1,0 +1,13 @@
+target/
+*.db/
+indexer/
+contract_storage/
+*.log*
+LOG*
+MANIFEST-*
+*.db/
+indexer/
+contract_storage/
+*.log*
+LOG*
+MANIFEST-*

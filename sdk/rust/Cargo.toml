@@ -1,0 +1,46 @@
+[package]
+name = "siput-sdk"
+version = "0.1.0"
+edition = "2021"
+description = "High-level SDK for the Siput blockchain - easy wallet connect, transaction building, and event listening"
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/siput-com/Siput"
+repository = "https://github.com/siput-com/Siput"
+keywords = ["blockchain", "sdk", "wallet", "cryptocurrency", "siput", "web3"]
+categories = ["api-bindings", "cryptography", "web-programming"]
+authors = ["Siput Team <team@siput.com>"]
+
+[lib]
+name = "siput_sdk"
+path = "src/lib.rs"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+secp256k1 = { version = "0.28", features = ["recovery", "rand", "serde", "global-context"] }
+rand = "0.8"
+tokio = { version = "1.36", features = ["full"] }
+reqwest = { version = "0.11", default-features = false, features = ["json", "rustls-tls"] }
+thiserror = "1.0"
+async-trait = "0.1"
+hex = "0.4"
+sha2 = "0.10"
+futures = "0.3"
+tokio-tungstenite = { version = "0.20", features = ["rustls-tls-webpki-roots"] }
+url = "2.4"
+uuid = { version = "1.0", features = ["v4"] }
+chrono = "0.4"
+bincode = "1.3"
+# Path dependency to the core crate for types
+siput = { path = "../../" }
+
+# Additional dependencies for SDK
+bip39 = "1.1"
+aes-gcm = "0.10"
+pbkdf2 = "0.11"
+base64 = "0.21"
+hmac = "0.12"
+
+[dev-dependencies]
+tokio-test = "0.4"

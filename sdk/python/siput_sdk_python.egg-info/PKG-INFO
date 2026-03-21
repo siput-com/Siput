@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: siput-sdk-python
+Version: 0.1.0
+Summary: Siput Python SDK
+Author: Siput Team
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.31
+
+# Siput Python SDK
+
+## Install
+
+pip install -e .
+
+## Usage
+
+from siput_sdk.client import SiputClient
+
+client = SiputClient('http://127.0.0.1:8080')
+print(client.get_status())

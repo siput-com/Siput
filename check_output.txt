@@ -1,0 +1,368 @@
+   Compiling siput v0.1.0 (/workspaces/Siput-speed)
+warning: unused imports: `error` and `warn`
+ --> src/storage/block_store.rs:9:21
+  |
+9 | use tracing::{info, warn, error, debug};
+  |                     ^^^^  ^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused imports: `debug`, `error`, and `warn`
+ --> src/storage/pruning.rs:6:21
+  |
+6 | use tracing::{info, warn, error, debug};
+  |                     ^^^^  ^^^^^  ^^^^^
+
+warning: unused import: `crate::core::transaction::TxPayload`
+ --> src/dag/blockdag.rs:3:5
+  |
+3 | use crate::core::transaction::TxPayload;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `BTreeMap`
+ --> src/consensus/blue_set.rs:1:42
+  |
+1 | use std::collections::{HashMap, HashSet, BTreeMap};
+  |                                          ^^^^^^^^
+
+warning: unused imports: `HashMap` and `VecDeque`
+ --> src/consensus/mining.rs:1:24
+  |
+1 | use std::collections::{HashMap, VecDeque};
+  |                        ^^^^^^^  ^^^^^^^^
+
+warning: unused import: `oneshot`
+ --> src/consensus/mining.rs:5:25
+  |
+5 | use tokio::sync::{mpsc, oneshot};
+  |                         ^^^^^^^
+
+warning: unused imports: `debug` and `warn`
+ --> src/consensus/mining.rs:7:21
+  |
+7 | use tracing::{info, warn, debug, error};
+  |                     ^^^^  ^^^^^
+
+warning: unused import: `HashMap`
+ --> src/consensus/daa.rs:1:24
+  |
+1 | use std::collections::{HashMap, VecDeque};
+  |                        ^^^^^^^
+
+warning: unused imports: `BlockHash` and `Block`
+ --> src/consensus/fee_market.rs:5:19
+  |
+5 | use crate::core::{Block, BlockHash, Transaction, Address};
+  |                   ^^^^^  ^^^^^^^^^
+
+warning: unused import: `Block`
+ --> src/finality/finality_engine.rs:1:19
+  |
+1 | use crate::core::{Block, BlockHash};
+  |                   ^^^^^
+
+warning: unused import: `BTreeSet`
+ --> src/finality/finality_engine.rs:2:52
+  |
+2 | ...ap, HashSet, HashMap, BTreeSet};
+  |                          ^^^^^^^^
+
+warning: unused import: `error`
+ --> src/network/discovery.rs:6:34
+  |
+6 | use tracing::{info, debug, warn, error};
+  |                                  ^^^^^
+
+warning: unused import: `Duration`
+ --> src/cli/cli_interface.rs:3:19
+  |
+3 | use tokio::time::{Duration, Instant};
+  |                   ^^^^^^^^
+
+warning: unused imports: `PeerInfo` and `SystemMetrics`
+ --> src/cli/cli_interface.rs:5:32
+  |
+5 | use crate::node::{NodeRuntime, PeerInfo, SystemMetrics};
+  |                                ^^^^^^^^  ^^^^^^^^^^^^^
+
+warning: unused import: `crate::network::p2p_node::P2PNode`
+ --> src/cli/cli.rs:7:5
+  |
+7 | use crate::network::p2p_node::P2PNode;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `ecdsa::Signature`
+ --> src/security/batch_verification.rs:4:48
+  |
+4 | ...ssage, PublicKey, ecdsa::Signature};
+  |                      ^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::core::transaction::TxPayload`
+ --> src/security/batch_verification.rs:6:5
+  |
+6 | use crate::core::transaction::TxPayload;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::crypto::Signature as SiputSignature`
+ --> src/security/batch_verification.rs:7:5
+  |
+7 | use crate::crypto::Signature as SiputSignature;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `error`, `info`, and `warn`
+ --> src/security/batch_verification.rs:8:15
+  |
+8 | use tracing::{info, warn, error, debug};
+  |               ^^^^  ^^^^  ^^^^^
+
+warning: unused import: `error`
+ --> src/security/dos_protection.rs:7:27
+  |
+7 | use tracing::{info, warn, error, debug};
+  |                           ^^^^^
+
+warning: unused imports: `error`, `info`, and `warn`
+ --> src/security/fuzz_testing.rs:7:15
+  |
+7 | use tracing::{info, warn, error, debug};
+  |               ^^^^  ^^^^  ^^^^^
+
+warning: unused imports: `debug`, `error`, and `warn`
+ --> src/security/pre_validation.rs:2:15
+  |
+2 | use tracing::{debug, warn, error};
+  |               ^^^^^  ^^^^  ^^^^^
+
+warning: unused import: `crate::crypto`
+ --> src/security/pre_validation.rs:5:5
+  |
+5 | use crate::crypto;
+  |     ^^^^^^^^^^^^^
+
+warning: use of deprecated function `consensus::mining::calculate_reward`: Use calculate_expected_block_reward instead
+  --> src/core/block.rs:54:40
+   |
+54 | ...crate::consensus::calculate_reward(transactions.len());
+   |                      ^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated function `consensus::mining::calculate_reward`: Use calculate_expected_block_reward instead
+   --> src/core/block.rs:134:42
+    |
+134 | ...rate::consensus::calculate_reward(self.transactions...
+    |                     ^^^^^^^^^^^^^^^^
+
+warning: use of deprecated function `consensus::mining::calculate_reward`: Use calculate_expected_block_reward instead
+  --> src/consensus/mod.rs:13:152
+   |
+13 | ...rd, RewardConfig, calculate_reward, meets_difficulty...
+   |                      ^^^^^^^^^^^^^^^^
+
+warning: variable does not need to be mutable
+   --> src/node/node_runtime.rs:459:17
+    |
+459 |             let mut pruner_guard = pruner.lock();
+    |                 ----^^^^^^^^^^^^
+    |                 |
+    |                 help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `rayon::prelude`
+ --> src/consensus/mining.rs:8:5
+  |
+8 | use rayon::prelude::*;
+  |     ^^^^^^^^^^^^^^
+
+warning: unused variable: `dag`
+   --> src/consensus/ghostdag.rs:114:9
+    |
+114 |         dag: &BlockDAG,
+    |         ^^^ help: if this is intentional, prefix it with an underscore: `_dag`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `dag`
+   --> src/consensus/ghostdag.rs:138:9
+    |
+138 |         dag: &BlockDAG,
+    |         ^^^ help: if this is intentional, prefix it with an underscore: `_dag`
+
+warning: unused variable: `dag`
+   --> src/consensus/ghostdag.rs:660:13
+    |
+660 |         let dag = self.dag.read();
+    |             ^^^ help: if this is intentional, prefix it with an underscore: `_dag`
+
+warning: variable does not need to be mutable
+   --> src/consensus/mining.rs:230:25
+    |
+230 | ...   let (result_tx, mut result_rx) = mpsc::unbounded...
+    |                       ----^^^^^^^^^
+    |                       |
+    |                       help: remove this `mut`
+
+warning: unused variable: `result_rx`
+   --> src/consensus/mining.rs:230:25
+    |
+230 | ...et (result_tx, mut result_rx) = mpsc::unbounded_cha...
+    |                   ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_result_rx`
+
+error: future cannot be sent between threads safely
+   --> src/consensus/mining.rs:281:9
+    |
+281 | /         tokio::spawn(async move {
+282 | |             manager.mining_loop().await;
+283 | |         });
+    | |__________^ future created by async block is not `Send`
+    |
+    = help: within `{async block@src/consensus/mining.rs:281:22: 281:32}`, the trait `std::marker::Send` is not implemented for `*mut ()`
+note: future is not `Send` as this value is used across an await
+   --> src/consensus/mining.rs:320:65
+    |
+317 | ...h *self.state.read() {
+    |       ----------------- has type `parking_lot::lock_api::RwLockReadGuard<'_, parking_lot::RawRwLock, MiningState>` which is not `Send`
+...
+320 | ...    if let Err(e) = self.build_block_template().await {
+    |                                                    ^^^^^ await occurs here, with `self.state.read()` maybe used later
+note: required by a bound in `tokio::spawn`
+   --> /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.50.0/src/task/spawn.rs:176:21
+    |
+174 |     pub fn spawn<F>(future: F) -> JoinHandle<F::Output>
+    |            ----- required by a bound in this function
+175 |     where
+176 |         F: Future + Send + 'static,
+    |                     ^^^^ required by this bound in `spawn`
+
+warning: unused variable: `median_time`
+   --> src/consensus/daa.rs:255:68
+    |
+255 | ...&[(u64, u64)], median_time: u64) -> Result<f64, Str...
+    |                   ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_median_time`
+
+warning: unused variable: `expected_time_span`
+   --> src/consensus/daa.rs:268:13
+    |
+268 |         let expected_time_span = (window_data.len() - ...
+    |             ^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_expected_time_span`
+
+warning: unused variable: `transactions`
+   --> src/consensus/mining.rs:472:42
+    |
+472 | ..._reward(&self, transactions: &[Transaction]) -> Res...
+    |                   ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_transactions`
+
+warning: unused variable: `network`
+   --> src/consensus/mining.rs:583:13
+    |
+583 |         let network = self.network.read();
+    |             ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_network`
+
+warning: unused variable: `dag`
+   --> src/consensus/mining.rs:603:34
+    |
+603 | ...tted_supply(&self, dag: &BlockDAG) -> Result<u64, S...
+    |                       ^^^ help: if this is intentional, prefix it with an underscore: `_dag`
+
+warning: unused variable: `hash`
+   --> src/consensus/mining.rs:688:69
+    |
+688 | ...plate, nonce: u64, hash: [u8; 32]) -> Block {
+    |                       ^^^^ help: if this is intentional, prefix it with an underscore: `_hash`
+
+warning: unused variable: `pruning_point`
+   --> src/consensus/daa.rs:397:38
+    |
+397 | ..._window(&self, pruning_point: &BlockHash) {
+    |                   ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_pruning_point`
+
+warning: unused variable: `mempool`
+   --> src/consensus/fee_market.rs:176:13
+    |
+176 |         let mempool = self.mempool.read();
+    |             ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_mempool`
+
+warning: unused variable: `mempool`
+   --> src/consensus/fee_market.rs:260:13
+    |
+260 |         let mempool = self.mempool.read();
+    |             ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_mempool`
+
+warning: unused variable: `dag`
+   --> src/finality/finality_engine.rs:358:61
+    |
+358 | ..., head_score: u64, dag: &crate::dag::blockdag::Bloc...
+    |                       ^^^ help: if this is intentional, prefix it with an underscore: `_dag`
+
+warning: unused variable: `heights`
+   --> src/finality/finality_engine.rs:445:13
+    |
+445 |         let heights = self.block_heights.read();
+    |             ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_heights`
+
+warning: unused variable: `difficulty_config`
+  --> src/block/block_producer.rs:40:9
+   |
+40 |         difficulty_config: DaaConfig,
+   |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_difficulty_config`
+
+warning: unused variable: `rpc_node`
+   --> src/cli/cli.rs:150:13
+    |
+150 |         let rpc_node = node_arc.clone();
+    |             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rpc_node`
+
+warning: unused variable: `rpc_addr`
+   --> src/cli/cli.rs:151:13
+    |
+151 |         let rpc_addr = rpc_addr.to_string(); // Conver...
+    |             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rpc_addr`
+
+error: future cannot be sent between threads safely
+   --> src/cli/interactive.rs:109:22
+    |
+109 |           let handle = tokio::spawn(async move {
+    |  ______________________^
+110 | |             if let Err(e) = node_clone.run().await {
+111 | |                 eprintln!("Node runtime error: {}", e);
+112 | |             }
+113 | |         });
+    | |__________^ future created by async block is not `Send`
+    |
+    = help: within `IntervalNode`, the trait `Sync` is not implemented for `RefCell<HashMap<[u8; 32], bool>>`
+    = note: if you want to do aliasing and mutation between multiple threads, use `std::sync::RwLock` instead
+note: captured value is not `Send`
+   --> src/cli/interactive.rs:110:29
+    |
+110 |             if let Err(e) = node_clone.run().await {
+    |                             ^^^^^^^^^^ has type `Arc<NodeRuntime>` which is not `Send`
+note: required by a bound in `tokio::spawn`
+   --> /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.50.0/src/task/spawn.rs:176:21
+    |
+174 |     pub fn spawn<F>(future: F) -> JoinHandle<F::Output>
+    |            ----- required by a bound in this function
+175 |     where
+176 |         F: Future + Send + 'static,
+    |                     ^^^^ required by this bound in `spawn`
+
+warning: unused variable: `sig`
+   --> src/security/batch_verification.rs:137:13
+    |
+137 |         let sig = secp256k1::ecdsa::Signature::from_co...
+    |             ^^^ help: if this is intentional, prefix it with an underscore: `_sig`
+
+warning: unused variable: `ip`
+   --> src/security/dos_protection.rs:243:38
+    |
+243 |                 states_write.retain(|ip, state| {
+    |                                      ^^ help: if this is intentional, prefix it with an underscore: `_ip`
+
+warning: unused variable: `wasm_code`
+   --> src/security/fuzz_testing.rs:374:41
+    |
+374 | ...ContractDeploy { wasm_code, .. } => (0, [0u8; 20]),
+    |                     ^^^^^^^^^ help: try ignoring the field: `wasm_code: _`
+
+warning: `siput` (lib) generated 50 warnings
+error: could not compile `siput` (lib) due to 2 previous errors; 50 warnings emitted
