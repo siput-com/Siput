@@ -8,13 +8,14 @@
 
 use crate::rpc::interfaces::*;
 use crate::rpc::services::*;
-use crate::observability::{create_rpc_span, metrics, trace_performance};
+use crate::observability::{create_rpc_span, metrics};
 use axum::{
     extract::{Path, State},
     http::StatusCode,
     response::Json,
 };
 use serde::{Deserialize, Serialize};
+use std::sync::Arc;
 
 /// Shared RPC state
 #[derive(Clone)]
@@ -216,7 +217,7 @@ pub async fn get_mempool_info(
 }
 
 /// Helper function to parse address
-fn parse_address(addr_str: &str) -> Result<[u8; 20], StatusCode> {
+pub(crate) fn parse_address(addr_str: &str) -> Result<[u8; 20], StatusCode> {
     if !addr_str.starts_with("spt") {
         return Err(StatusCode::BAD_REQUEST);
     }

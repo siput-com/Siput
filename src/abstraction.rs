@@ -62,25 +62,9 @@ pub mod traits {
     }
 }
 
-    /// Trait for components that can provide peer information
-    pub trait PeerProvider {
-        fn get_connected_peers(&self) -> Vec<String>;
-        fn get_all_peers(&self) -> Vec<String>;
-        fn get_peer_info(&self, peer_id: &PeerId) -> Option<crate::network::PeerInfo>;
-    }
+pub mod service;
 
-    /// Trait for components that can provide transaction information
-    pub trait TransactionProvider {
-        fn get_pending_transactions(&self) -> Vec<crate::core::Transaction>;
-        fn get_transaction_count(&self) -> usize;
-    }
-
-    /// Trait for components that can provide block information
-    pub trait BlockProvider {
-        fn get_block_hash(&self, height: u64) -> Option<BlockHash>;
-        fn get_block_height(&self, hash: &BlockHash) -> Option<u64>;
-    }
-}
+pub use crate::rpc::interfaces::{BlockchainInterface, ContractInterface, NetworkInterface, RpcInterface};
 
 /// Shared utility functions for data access
 pub mod utils {

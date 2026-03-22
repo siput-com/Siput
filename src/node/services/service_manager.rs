@@ -5,6 +5,10 @@ use tokio::time::{interval, Duration};
 use crate::pipeline::{TransactionPipelineManager, ValidationStage, MempoolStage, ExecutionStage, StateUpdateStage, FinalityStage};
 use crate::state::state_manager::StateManager;
 use crate::execution::transaction_executor::TransactionExecutor;
+use crate::dag::BlockDAG;
+use crate::mempool::TxDagMempool;
+use crate::core::{Block, Transaction, BlockHash};
+use crate::finality::FinalityEngine;
 
 use crate::node::{PeerInfo, SystemMetrics};
 
@@ -13,25 +17,25 @@ use super::{ExecutionService, ConsensusService, NetworkService};
 /// Service manager untuk mengelola semua services
 pub struct ServiceManager {
     /// Execution service
-    execution_service: ExecutionService,
+    pub execution_service: ExecutionService,
     /// Consensus service
-    consensus_service: ConsensusService,
+    pub consensus_service: ConsensusService,
     /// Network service
-    network_service: NetworkService,
+    pub network_service: NetworkService,
     /// BlockDAG
-    blockdag: Arc<RwLock<BlockDAG>>,
+    pub blockdag: Arc<RwLock<BlockDAG>>,
     /// Transaction mempool
-    mempool: Arc<TxDagMempool>,
+    pub mempool: Arc<TxDagMempool>,
     /// Block producer
-    block_producer: Arc<crate::block::BlockProducer>,
+    pub block_producer: Arc<crate::block::BlockProducer>,
     /// Indexers
-    block_indexer: Arc<crate::indexer::BlockIndexerImpl>,
-    tx_indexer: Arc<crate::indexer::TransactionIndexerImpl>,
-    address_indexer: Arc<crate::indexer::AddressIndexerImpl>,
+    pub block_indexer: Arc<crate::indexer::BlockIndexerImpl>,
+    pub tx_indexer: Arc<crate::indexer::TransactionIndexerImpl>,
+    pub address_indexer: Arc<crate::indexer::AddressIndexerImpl>,
     /// Chain storage
-    chain_storage: Arc<crate::storage::ChainStorage>,
+    pub chain_storage: Arc<crate::storage::ChainStorage>,
     /// Transaction pipeline
-    pipeline: TransactionPipelineManager,
+    pub pipeline: TransactionPipelineManager,
 }
 
 impl ServiceManager {
@@ -43,9 +47,9 @@ impl ServiceManager {
         blockdag: Arc<RwLock<BlockDAG>>,
         mempool: Arc<TxDagMempool>,
         block_producer: Arc<crate::block::BlockProducer>,
-        block_indexer: Arc<crate::indexer::BlockIndexer>,
-        tx_indexer: Arc<crate::indexer::TransactionIndexer>,
-        address_indexer: Arc<crate::indexer::AddressIndexer>,
+        block_indexer: Arc<crate::indexer::BlockIndexerImpl>,
+        tx_indexer: Arc<crate::indexer::TransactionIndexerImpl>,
+        address_indexer: Arc<crate::indexer::AddressIndexerImpl>,
         chain_storage: Arc<crate::storage::ChainStorage>,
         state_manager: Arc<parking_lot::Mutex<StateManager>>,
         executor: Arc<parking_lot::Mutex<TransactionExecutor>>,

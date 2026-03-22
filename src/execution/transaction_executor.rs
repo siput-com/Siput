@@ -3,7 +3,7 @@ use crate::Block;
 use crate::execution::parallel_executor::execute_block_transactions_parallel;
 use crate::contracts::contract_registry::ContractRegistry;
 use crate::contracts::contract_storage::ContractStorage;
-use crate::observability::{trace_performance, trace_blockchain_operation, metrics};
+// use crate::observability::{trace_performance, trace_blockchain_operation, metrics};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 

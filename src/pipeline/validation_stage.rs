@@ -2,6 +2,7 @@ use crate::core::Transaction;
 use crate::pipeline::{TransactionPipelineStage, PipelineContext, PipelineResult};
 use async_trait::async_trait;
 use std::sync::Arc;
+use secp256k1::{Secp256k1, Message, ecdsa::Signature, ecdsa::RecoveryId};
 
 /// Stage validasi transaksi
 pub struct ValidationStage {
@@ -24,7 +25,6 @@ impl ValidationStage {
         let signature = &tx.signature;
 
         // Recover public key dari signature
-        use secp256k1::{Secp256k1, Message, Signature, RecoveryId};
         let secp = Secp256k1::new();
         let msg = Message::from_digest_slice(&message).map_err(|e| format!("Invalid message: {}", e))?;
         let sig = Signature::from_compact(&signature.data).map_err(|e| format!("Invalid signature: {}", e))?;

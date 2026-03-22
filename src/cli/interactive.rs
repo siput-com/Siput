@@ -7,7 +7,7 @@ use parking_lot::{Mutex, RwLock};
 
 use crate::core::transaction::{Address, Transaction};
 use crate::node::NodeRuntime;
-use crate::wallet::wallet::Wallet;
+use crate::wallet::Wallet;
 
 pub struct AppState {
     pub node_online: bool,

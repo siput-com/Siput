@@ -3,15 +3,9 @@
 //! Main RPC server implementation with modular handlers,
 //! interface-based design, and API versioning.
 
-use crate::contracts::contract_registry::ContractRegistry;
-use crate::core::{Block, Transaction};
-use crate::dag::blockdag::BlockDAG;
-use crate::mempool::tx_dag_mempool::TxDagMempool;
-use crate::network::p2p_node::P2PNode;
 use crate::rpc::handlers::*;
 use crate::rpc::services::*;
 use crate::rpc::versioning::*;
-use crate::state::state_manager::StateManager;
 use crate::observability::{create_rpc_span, metrics};
 use axum::{
     http::StatusCode,
@@ -32,18 +26,16 @@ pub struct RpcState {
 /// Create the RPC server router with versioned endpoints
 pub fn create_router(state: RpcState) -> Router {
     let blockchain_routes = Router::new()
-        .route("/send_tx", post(send_transaction))
+        .route("/send_tx", post(submit_transaction))
         .route("/balance/:address", get(get_balance))
         .route("/block/:hash", get(get_block))
         .route("/tx/:hash", get(get_transaction))
-        .route("/tx/status/:hash", get(get_transaction_status))
         .route("/dag", get(get_dag_info));
 
     let contract_routes = Router::new()
         .route("/deploy", post(deploy_contract))
         .route("/call", post(call_contract))
-        .route("/:address", get(get_contract_info))
-        .route("/list", get(get_contract_list));
+        .route("/:address", get(get_contract_info));
 
     let node_routes = Router::new()
         .route("/info", get(get_node_info))
@@ -66,36 +58,8 @@ pub async fn get_api_version() -> Json<VersionInfo> {
 /// Start the RPC server
 pub async fn start_server(
     addr: &str,
-    dag: Arc<RwLock<BlockDAG>>,
-    mempool: Arc<TxDagMempool>,
-    state_manager: Arc<Mutex<StateManager>>,
-    contract_registry: Arc<Mutex<ContractRegistry>>,
-    p2p_node: Option<Arc<tokio::sync::RwLock<P2PNode>>>,
+    rpc_service: Arc<RpcService>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    // Create service implementations
-    let blockchain_service = Arc::new(BlockchainServiceImpl::new(
-        Arc::clone(&dag),
-        Arc::clone(&mempool),
-        Arc::clone(&state_manager),
-    ));
-
-    let contract_service = Arc::new(ContractServiceImpl::new(
-        Arc::clone(&contract_registry),
-        Arc::clone(&state_manager),
-    ));
-
-    let node_service = Arc::new(NodeServiceImpl::new(
-        p2p_node.as_ref().map(Arc::clone),
-        Arc::clone(&mempool),
-        Arc::clone(&dag),
-    ));
-
-    let rpc_service = Arc::new(RpcService {
-        blockchain: blockchain_service,
-        contracts: contract_service,
-        node: node_service,
-    });
-
     let state = RpcState {
         service: rpc_service,
     };

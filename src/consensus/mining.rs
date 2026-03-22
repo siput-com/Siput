@@ -1046,3 +1046,8 @@ impl crate::ConsensusInterface for Consensus {
         self.blockdag.read().get_tips().first().cloned().unwrap_or([0u8; 32])
     }
 }
+
+// Consensus token supply constants
+pub const CTS_GENESIS_ALLOCATION: u64 = 1_000_000_000; // 1 billion tokens
+pub const CTS_MAX_SUPPLY: u64 = 21_000_000_000; // 21 billion max supply
+pub const CTS_MINING_SUPPLY: u64 = 20_000_000_000; // 20 billion for mining

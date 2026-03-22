@@ -9,16 +9,10 @@
 pub mod logging;
 pub mod metrics;
 pub mod tracing;
-pub mod tracing;
-pub mod health;
-pub mod middleware;
 
 pub use logging::*;
 pub use metrics::*;
 pub use tracing::*;
-pub use tracing::*;
-pub use health::*;
-pub use middleware::*;
 
 /// Initialize the complete observability stack
 pub async fn init_observability(
@@ -35,7 +29,7 @@ pub async fn init_observability(
     // Initialize tracing
     init_tracing(service_name, version).await?;
 
-    tracing::info!(
+    info!(
         service_name = %service_name,
         version = %version,
         "Observability system initialized"
@@ -46,7 +40,7 @@ pub async fn init_observability(
 
 /// Shutdown observability systems gracefully
 pub async fn shutdown_observability() -> Result<(), Box<dyn std::error::Error>> {
-    tracing::info!("Shutting down observability systems");
+    info!("Shutting down observability systems");
 
     // Shutdown tracing
     shutdown_tracing().await?;
@@ -54,7 +48,7 @@ pub async fn shutdown_observability() -> Result<(), Box<dyn std::error::Error>> 
     // Shutdown metrics
     shutdown_metrics().await?;
 
-    tracing::info!("Observability systems shut down");
+    info!("Observability systems shut down");
     Ok(())
 }
 
@@ -136,7 +130,7 @@ impl ObservabilityConfig {
 
         init_logging(&self.service_name, &self.log_level)?;
 
-        tracing::info!(
+        info!(
             service_name = %self.service_name,
             service_version = %self.service_version,
             "Observability initialized with config"
@@ -203,7 +197,7 @@ macro_rules! measure_time {
         let start = std::time::Instant::now();
         let result = $operation;
         let duration = start.elapsed();
-        tracing::debug!(
+        tracing::tracing::debug!(
             operation = stringify!($operation),
             duration_ms = duration.as_millis(),
             "Operation completed"
@@ -220,7 +214,7 @@ macro_rules! measure_time_async {
             let start = std::time::Instant::now();
             let result = $operation.await;
             let duration = start.elapsed();
-            tracing::debug!(
+            tracing::tracing::debug!(
                 operation = stringify!($operation),
                 duration_ms = duration.as_millis(),
                 "Async operation completed"

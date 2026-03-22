@@ -1,3 +1,4 @@
+pub mod abstraction;
 pub mod block;
 pub mod cli;
 pub mod config;
@@ -21,10 +22,9 @@ pub mod security;
 pub mod state;
 pub mod storage;
 pub mod utils;
-pub mod plugins;
-pub mod abstraction;
 pub mod vm;
 pub mod wallet;
+pub mod observability;
 
 pub use block::BlockProducer;
 pub use cli::CLIInterface;

@@ -71,7 +71,7 @@ impl Block {
             0.0,
             &[],
             transactions.len(),
-            &crate::consensus::mining::RewardConfig::default(),
+            &crate::consensus::RewardConfig::default(),
         );
         let tx_fee: u64 = transactions.iter().map(|tx| tx.gas_price).sum();
         let reward = base.saturating_add(tx_fee);

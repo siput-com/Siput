@@ -43,6 +43,8 @@ pub struct NodeRuntime {
     service_manager: Arc<ServiceManager>,
     /// BlockDAG (still needed for some operations)
     blockdag: Arc<RwLock<BlockDAG>>,
+    /// Contract registry
+    pub contract_registry: Arc<parking_lot::Mutex<ContractRegistry>>,
     /// Node ID
     pub node_id: [u8; 20],
     /// Block production interval (ms)
@@ -158,12 +160,17 @@ impl NodeRuntime {
         ));
 
         // Initialize indexers
-        let block_indexer = Arc::new(crate::indexer::BlockIndexer::new(&format!("{}-block-index", db_path))
-            .map_err(|e| format!("Failed to initialize block indexer: {:?}", e))?);
-        let tx_indexer = Arc::new(crate::indexer::TransactionIndexer::new(&format!("{}-tx-index", db_path))
-            .map_err(|e| format!("Failed to initialize transaction indexer: {:?}", e))?);
-        let address_indexer = Arc::new(crate::indexer::AddressIndexer::new(&format!("{}-address-index", db_path))
-            .map_err(|e| format!("Failed to initialize address indexer: {:?}", e))?);
+        let block_store = Arc::new(BlockStore::new_with_path(&format!("{}-block-store", db_path))
+            .map_err(|e| format!("Failed to initialize block store: {}", e))?);
+
+        let storage_engine = Arc::new(crate::storage::StorageEngine::new(
+            block_store.clone(),
+            chain_storage.clone(),
+        ));
+
+        let block_indexer = Arc::new(crate::indexer::BlockIndexer::new(storage_engine.clone()));
+        let tx_indexer = Arc::new(crate::indexer::TransactionIndexer::new(storage_engine.clone()));
+        let address_indexer = Arc::new(crate::indexer::AddressIndexer::new(storage_engine.clone()));
 
         // Create consensus wrapper
         let consensus = Arc::new(Consensus {
@@ -226,6 +233,7 @@ impl NodeRuntime {
         Ok(Self {
             service_manager,
             blockdag,
+            contract_registry,
             node_id,
             block_interval,
             mining_enabled: Arc::new(AtomicBool::new(true)),
@@ -462,7 +470,7 @@ impl NodeRuntime {
         let recent_timestamps = {
             let dag = self.blockdag.read();
             dag.get_recent_timestamps(
-                crate::consensus::mining::RewardConfig::default().activity_window,
+                crate::consensus::RewardConfig::default().activity_window,
             )
         };
         let parent_hashes = crate::consensus::select_mining_parents(

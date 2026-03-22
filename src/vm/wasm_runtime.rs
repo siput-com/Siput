@@ -159,27 +159,53 @@ impl WasmRuntime {
 }
 
 impl crate::vm::VmEngine for WasmRuntime {
-    fn instantiate_contract(
-        &self,
-        bytecode: &[u8],
-        state: crate::vm::RuntimeState,
-        gas_limit: u64,
-    ) -> Result<(Store<RuntimeState>, Instance)> {
-        self.instantiate_contract(bytecode, state, gas_limit)
+    fn vm_type(&self) -> crate::vm::VmType {
+        crate::vm::VmType::Wasm
     }
 
-    fn call_function(
+    fn deploy_contract(
         &self,
-        store: &mut Store<RuntimeState>,
-        instance: &Instance,
-        func_name: &str,
-        args: &[Val],
-    ) -> Result<Box<[Val]>> {
-        self.call_function(store, instance, func_name, args)
+        _bytecode: &[u8],
+        _deployer: &crate::core::Address,
+        _gas_limit: u64,
+        _block_context: &crate::vm::BlockContext,
+    ) -> Result<crate::vm::ContractInstance, crate::vm::VmError> {
+        Err(crate::vm::VmError::InternalError(
+            "deploy_contract not implemented".to_string(),
+        ))
     }
 
-    fn execute_contract(&self, _contract_address: &[u8; 20], _method: &str, _args: &[u8]) -> Result<Vec<u8>, String> {
-        Err("WasmRuntime does not support execute_contract directly".to_string())
+    fn execute_contract(
+        &self,
+        _contract_address: &crate::core::Address,
+        _method: &str,
+        _args: &[u8],
+        _caller: &crate::core::Address,
+        _gas_limit: u64,
+        _block_context: &crate::vm::BlockContext,
+    ) -> Result<crate::vm::ExecutionResult, crate::vm::VmError> {
+        Err(crate::vm::VmError::InternalError(
+            "execute_contract not implemented".to_string(),
+        ))
+    }
+
+    fn get_contract_code(
+        &self,
+        _contract_address: &crate::core::Address,
+    ) -> Result<Option<Vec<u8>>, crate::vm::VmError> {
+        Ok(None)
+    }
+
+    fn contract_exists(&self, _contract_address: &crate::core::Address) -> bool {
+        false
+    }
+
+    fn validate_bytecode(&self, _bytecode: &[u8]) -> Result<(), crate::vm::VmError> {
+        Ok(())
+    }
+
+    fn supported_contract_types(&self) -> Vec<String> {
+        vec!["wasm".to_string()]
     }
 }
 

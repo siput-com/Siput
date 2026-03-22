@@ -1,7 +1,8 @@
 use rocksdb::{Options, DB};
 
 // some helper utilities are currently unused but may be handy later
-use crate::vm::wasm_runtime::Storage;
+use crate::vm::WasmStorage;
+use crate::vm::WasmStorage as Storage;
 #[allow(dead_code)]
 use std::sync::Arc;
 

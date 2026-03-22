@@ -257,14 +257,6 @@ impl crate::VMExecutor for ContractExecutor {
     }
 }
 
-impl crate::VMExecutor for ContractExecutor {
-    fn execute(&self, code: &[u8], args: &[u8]) -> Result<Vec<u8>, String> {
-        // For decoupling, assume code is contract address or something
-        // Simplified
-        self.execute_contract(&[0u8; 20], "main", args)
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

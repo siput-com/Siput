@@ -7,7 +7,7 @@ use axum::{
     extract::Request,
     http::{header, StatusCode},
     middleware::Next,
-    response::{IntoResponse, Response},
+    response::{IntoResponse, Response, Json},
 };
 use serde::{Deserialize, Serialize};
 

@@ -124,57 +124,28 @@ struct JsonVisitor<'a, W: io::Write>(&'a mut serde_json::Serializer<W>);
 
 impl<'a, W: io::Write> tracing::field::Visit for JsonVisitor<'a, W> {
     fn record_debug(&mut self, field: &tracing::field::Field, value: &dyn std::fmt::Debug) {
-        let _ = self.0.serialize_map(serde_json::MapSerializer::new(self.0, None))
-            .and_then(|mut map| {
-                map.serialize_key(field.name())?;
-                map.serialize_value(&format!("{:?}", value))?;
-                map.end()
-            });
+        // Simplified implementation - just write the field directly
+        let _ = write!(self.0.into_inner(), "\"{}\":\"{:?}\"", field.name(), value);
     }
 
     fn record_str(&mut self, field: &tracing::field::Field, value: &str) {
-        let _ = self.0.serialize_map(serde_json::MapSerializer::new(self.0, None))
-            .and_then(|mut map| {
-                map.serialize_key(field.name())?;
-                map.serialize_value(value)?;
-                map.end()
-            });
+        let _ = write!(self.0.into_inner(), "\"{}\":\"{}\"", field.name(), value);
     }
 
     fn record_bool(&mut self, field: &tracing::field::Field, value: bool) {
-        let _ = self.0.serialize_map(serde_json::MapSerializer::new(self.0, None))
-            .and_then(|mut map| {
-                map.serialize_key(field.name())?;
-                map.serialize_value(&value)?;
-                map.end()
-            });
+        let _ = write!(self.0.into_inner(), "\"{}\":{}", field.name(), value);
     }
 
     fn record_i64(&mut self, field: &tracing::field::Field, value: i64) {
-        let _ = self.0.serialize_map(serde_json::MapSerializer::new(self.0, None))
-            .and_then(|mut map| {
-                map.serialize_key(field.name())?;
-                map.serialize_value(&value)?;
-                map.end()
-            });
+        let _ = write!(self.0.into_inner(), "\"{}\":{}", field.name(), value);
     }
 
     fn record_u64(&mut self, field: &tracing::field::Field, value: u64) {
-        let _ = self.0.serialize_map(serde_json::MapSerializer::new(self.0, None))
-            .and_then(|mut map| {
-                map.serialize_key(field.name())?;
-                map.serialize_value(&value)?;
-                map.end()
-            });
+        let _ = write!(self.0.into_inner(), "\"{}\":{}", field.name(), value);
     }
 
     fn record_f64(&mut self, field: &tracing::field::Field, value: f64) {
-        let _ = self.0.serialize_map(serde_json::MapSerializer::new(self.0, None))
-            .and_then(|mut map| {
-                map.serialize_key(field.name())?;
-                map.serialize_value(&value)?;
-                map.end()
-            });
+        let _ = write!(self.0.into_inner(), "\"{}\":{}", field.name(), value);
     }
 }
 
@@ -337,17 +308,25 @@ pub mod security {
     use super::*;
 
     pub fn log_authentication_attempt(user: &str, success: bool, ip: Option<&str>) {
-        let level = if success { tracing::Level::INFO } else { tracing::Level::WARN };
-        let event = if success { "auth_success" } else { "auth_failure" };
-
-        tracing::event!(
-            level,
-            event = %event,
-            user = %user,
-            ip = ?ip,
-            success = success,
-            "Authentication attempt"
-        );
+        if success {
+            tracing::event!(
+                tracing::Level::INFO,
+                event = "auth_success",
+                user = %user,
+                ip = ?ip,
+                success = success,
+                "Authentication attempt"
+            );
+        } else {
+            tracing::event!(
+                tracing::Level::WARN,
+                event = "auth_failure",
+                user = %user,
+                ip = ?ip,
+                success = success,
+                "Authentication attempt"
+            );
+        }
     }
 
     pub fn log_unauthorized_access(resource: &str, user: Option<&str>, ip: &str) {

@@ -1,6 +1,6 @@
 use crate::core::Transaction;
 use crate::node::NodeRuntime;
-use crate::wallet::wallet::Wallet;
+use crate::wallet::Wallet;
 use clap::{Parser, Subcommand};
 use parking_lot::RwLock;
 use reqwest::Client;

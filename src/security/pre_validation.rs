@@ -1,11 +1,8 @@
 use crate::core::{Block, Transaction};
-use crate::utils::validator::{PreTransactionValidator as InnerValidator, PreValidationResult, ValidationError};
+use crate::utils::validator::PreTransactionValidator as InnerValidator;
 
-/// Pre-validation result (re-exported for compatibility)
-pub type PreValidationResult = crate::utils::validator::PreValidationResult;
-
-/// Validation error types (re-exported for compatibility)
-pub type ValidationError = crate::utils::validator::ValidationError;
+// Re-export for compatibility
+pub use crate::utils::validator::{PreValidationResult, ValidationError};
 
 /// Stateless transaction pre-validator (wrapper for compatibility)
 pub struct TransactionPreValidator {
@@ -194,4 +191,3 @@ impl Default for TransactionPreValidator {
         assert!(gas >= 21000); // Base gas
         assert!(gas <= tx.gas_limit);
     }
-}

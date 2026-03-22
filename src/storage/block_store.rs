@@ -550,20 +550,6 @@ mod tests {
     }
 }
 
-impl crate::storage::StorageEngine for BlockStore {
-    fn insert_block(&self, block: crate::core::Block) -> Result<(), String> {
-        self.insert_block(block)
-    }
-
-    fn get_block(&self, hash: &crate::core::BlockHash) -> Option<crate::core::Block> {
-        self.get_block(hash)
-    }
-
-    fn block_exists(&self, hash: &crate::core::BlockHash) -> bool {
-        self.block_exists(hash)
-    }
-}
-
 impl Default for BlockStore {
     fn default() -> Self {
         Self::new()
